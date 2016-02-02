@@ -1,0 +1,9 @@
+{
+  "name": "foo",
+  "version": "0.5.0",
+  "dependencies": {
+    "solr-client": "*",
+    "chance": "*",
+    "node-uuid": "*"
+  }
+}
