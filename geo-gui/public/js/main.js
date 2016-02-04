@@ -33,7 +33,7 @@ $(function () {
     })
       .done(function (data) {
         data.items.forEach(function (item) {
-          addMarker(item.geo.split(',')[0], item.geo.split(',')[1], map);
+          addMarker(item.coordinates.split(',')[0], item.coordinates.split(',')[1], map);
         });
 
       });
@@ -50,7 +50,7 @@ $(function () {
       .done(function (data) {
         clearOverlays();
         data.items.forEach(function (item) {
-          addMarker(item.geo.split(',')[0], item.geo.split(',')[1], $map.data('gmap').map);
+          addMarker(item.coordinates.split(',')[0], item.coordinates.split(',')[1], $map.data('gmap').map);
         });
 
       });
@@ -68,7 +68,7 @@ $(function () {
         clearOverlays();
 
         data.items.forEach(function (item) {
-          addMarker(item.geo.split(',')[0], item.geo.split(',')[1], $map.data('gmap').map);
+          addMarker(item.coordinates.split(',')[0], item.coordinates.split(',')[1], $map.data('gmap').map);
         });
 
       });
@@ -87,7 +87,7 @@ $(function () {
         clearOverlays();
 
         data.items.forEach(function (item) {
-          addMarker(item.geo.split(',')[0], item.geo.split(',')[1], $map.data('gmap').map);
+          addMarker(item.coordinates.split(',')[0], item.coordinates.split(',')[1], $map.data('gmap').map);
         });
 
       });

@@ -11,8 +11,8 @@ router.get('/', function (req, res, next) {
 router.post('/points/get', function (req, res, next) {
 
 // Create a client
-  var client = solr.createClient({host: "localhost", port: 8080, path: '/solr', core: 'core0'});
-  var query = 'q=*:*&wt=json&indent=true&fq={!geofilt%20sfield=geo}&pt=' + req.body.lat + ',' + req.body.lng + '&d=' + req.body.distance + '&rows=2147483647';
+  var client = solr.createClient({host: "localhost", port: 8983, path: '/solr', core: 'geo'});
+  var query = 'q=*:*&wt=json&indent=true&fq={!geofilt%20sfield=coordinates}&pt=' + req.body.lat + ',' + req.body.lng + '&d=' + req.body.distance + '&rows=2147483647';
 
   client.get('select', query, function (err, obj) {
     if (err) {
@@ -24,7 +24,6 @@ router.post('/points/get', function (req, res, next) {
       });
     }
   });
-
 
 });
 
