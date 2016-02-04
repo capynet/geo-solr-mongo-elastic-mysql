@@ -22,7 +22,7 @@ for (var i = 0; i <= loopQty; i++) {
 }
 console.timeEnd("Generar");
 
-console.time("Solr");
+console.time("Mongo");
 
 // Add documents
 client.add(docs, {commit: true}, function (err, obj) {
@@ -32,5 +32,5 @@ client.add(docs, {commit: true}, function (err, obj) {
     //console.log(obj);
   }
 
-  console.timeEnd("Solr");
+  console.timeEnd("Mongo");
 });
