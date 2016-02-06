@@ -1,36 +1,45 @@
 // Load dependency
-var client = require('mongoose');
-var uuid = require('node-uuid');
 var Chance = require('chance');
 var chance = new Chance();
+var MongoClient = require('mongodb').MongoClient;
 
-mongoose.connect('mongodb://localhost/geo');
-
-var coords = mongoose.model('Coords', { name: String });
 
 // Creamos un huevo de documentos
 var docs = [];
-var loopQty = 1000000;
+var loopQty = 1000;
 
-console.time("Generar");
+console.time("Generate mongo points");
 for (var i = 0; i <= loopQty; i++) {
+
+  var coords = chance.coordinates().split(', ');
+
   var doc = {
-    id: uuid.v4(),
-    geo: chance.coordinates()
+    "location":{
+      "type" : "Point",
+      "coordinates" : [parseFloat(coords[1]), parseFloat(coords[0])]
+    },
+    "name": "foo" + i
+
   };
+
   docs.push(doc);
 }
-console.timeEnd("Generar");
+console.timeEnd("Generate mongo points");
 
-console.time("Mongo");
 
-// Add documents
-client.add(docs, {commit: true}, function (err, obj) {
-  if (err) {
-    console.log(err);
-  } else {
-    //console.log(obj);
-  }
+console.time("Mongo add documents");
 
-  console.timeEnd("Mongo");
+MongoClient.connect('mongodb://localhost:27017/geo', function(err, db) {
+  // Get the collection
+  var col = db.collection('map_points');
+  col.insertMany(docs, function(err, r) {
+    if (err) {
+      console.log(err);
+    }else{
+      console.log(r.insertedCount + ' added.');
+    }
+
+    console.timeEnd("Mongo add documents");
+    db.close();
+  });
 });

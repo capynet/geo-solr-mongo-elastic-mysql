@@ -1,9 +1,8 @@
 {
-  "name": "foo",
+  "name": "Mongodb-geo-back",
   "version": "0.5.0",
   "dependencies": {
-    "mongoose": "*",
-    "chance": "*",
-    "node-uuid": "*"
+    "mongodb": "*",
+    "chance": "*"
   }
 }
