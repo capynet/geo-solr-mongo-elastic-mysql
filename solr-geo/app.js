@@ -17,7 +17,7 @@ var docs = [];
 var loopQty = 1000000;
 
 console.time("Generate points");
-for (var i = 0; i <= loopQty; i++) {
+for (var i = 1; i <= loopQty; i++) {
   var doc = {
     id: uuid.v4(),
     coordinates: chance.coordinates()

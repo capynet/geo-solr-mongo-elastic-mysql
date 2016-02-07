@@ -1,15 +1,15 @@
-// Load dependency
+// Load dependencies
 var Chance = require('chance');
 var chance = new Chance();
 var MongoClient = require('mongodb').MongoClient;
 
 
-// Creamos un huevo de documentos
+// We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 1000;
+var loopQty = 100000;
 
 console.time("Generate mongo points");
-for (var i = 0; i <= loopQty; i++) {
+for (var i = 1; i <= loopQty; i++) {
 
   var coords = chance.coordinates().split(', ');
 
@@ -17,9 +17,7 @@ for (var i = 0; i <= loopQty; i++) {
     "location":{
       "type" : "Point",
       "coordinates" : [parseFloat(coords[1]), parseFloat(coords[0])]
-    },
-    "name": "foo" + i
-
+    }
   };
 
   docs.push(doc);
@@ -32,11 +30,19 @@ console.time("Mongo add documents");
 MongoClient.connect('mongodb://localhost:27017/geo', function(err, db) {
   // Get the collection
   var col = db.collection('map_points');
+
+  // before add all the documents we empty the entire collection.
+  col.remove({});
+  console.log('collection now is empty');
+
   col.insertMany(docs, function(err, r) {
     if (err) {
       console.log(err);
     }else{
-      console.log(r.insertedCount + ' added.');
+      console.log(r.insertedCount + ' document were added.');
+      // finally we create a 2dsphere index to allow us geospatial searches.
+      col.createIndex({ "location": "2dsphere" });
+      console.log('2dsphere index created');
     }
 
     console.timeEnd("Mongo add documents");
