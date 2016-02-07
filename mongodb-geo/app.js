@@ -6,7 +6,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 100000;
+var loopQty = 1000000;
 
 console.time("Generate mongo points");
 for (var i = 1; i <= loopQty; i++) {
@@ -14,9 +14,9 @@ for (var i = 1; i <= loopQty; i++) {
   var coords = chance.coordinates().split(', ');
 
   var doc = {
-    "location":{
-      "type" : "Point",
-      "coordinates" : [parseFloat(coords[1]), parseFloat(coords[0])]
+    "location": {
+      "type": "Point",
+      "coordinates": [parseFloat(coords[1]), parseFloat(coords[0])]
     }
   };
 
@@ -27,7 +27,7 @@ console.timeEnd("Generate mongo points");
 
 console.time("Mongo add documents");
 
-MongoClient.connect('mongodb://localhost:27017/geo', function(err, db) {
+MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
   // Get the collection
   var col = db.collection('map_points');
 
@@ -35,14 +35,17 @@ MongoClient.connect('mongodb://localhost:27017/geo', function(err, db) {
   col.remove({});
   console.log('collection now is empty');
 
-  col.insertMany(docs, function(err, r) {
+  col.insertMany(docs, function (err, r) {
     if (err) {
       console.log(err);
-    }else{
+    } else {
       console.log(r.insertedCount + ' document were added.');
+
+      console.time("Create index");
       // finally we create a 2dsphere index to allow us geospatial searches.
-      col.createIndex({ "location": "2dsphere" });
+      col.createIndex({"location": "2dsphere"});
       console.log('2dsphere index created');
+      console.timeEnd("Create index");
     }
 
     console.timeEnd("Mongo add documents");
