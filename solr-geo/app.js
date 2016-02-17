@@ -14,7 +14,7 @@ var client = solr.createClient({
 
 // Creamos un huevo de documentos
 var docs = [];
-var loopQty = 1000000;
+var loopQty = 4000000;
 
 console.time("Generate points");
 for (var i = 1; i <= loopQty; i++) {

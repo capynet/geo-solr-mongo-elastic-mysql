@@ -1,0 +1,8 @@
+{
+  "name": "elasticsearch-geo-back",
+  "version": "0.0.1",
+  "dependencies": {
+    "elasticsearch": "*",
+    "chance": "*"
+  }
+}

@@ -6,7 +6,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 1000000;
+var loopQty = 2000000;
 
 console.time("Generate mongo points");
 for (var i = 1; i <= loopQty; i++) {
@@ -32,8 +32,8 @@ MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
   var col = db.collection('map_points');
 
   // before add all the documents we empty the entire collection.
-  col.remove({});
-  console.log('collection now is empty');
+  // col.remove({});
+  // console.log('collection now is empty');
 
   col.insertMany(docs, function (err, r) {
     if (err) {
@@ -41,11 +41,11 @@ MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
     } else {
       console.log(r.insertedCount + ' document were added.');
 
-      console.time("Create index");
+      //console.time("Create index");
       // finally we create a 2dsphere index to allow us geospatial searches.
-      col.createIndex({"location": "2dsphere"});
-      console.log('2dsphere index created');
-      console.timeEnd("Create index");
+      //col.createIndex({"location": "2dsphere"});
+      //console.log('2dsphere index created');
+      //console.timeEnd("Create index");
     }
 
     console.timeEnd("Mongo add documents");
