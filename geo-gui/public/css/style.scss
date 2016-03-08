@@ -1,14 +1,14 @@
-label {
+#search {
   position: absolute;
   top: 0;
   right: 0;
   background: red;
   z-index: 1;
   padding: 5px;
-}
 
-input {
-  padding: 5px;
+  input {
+    padding: 5px;
+  }
 }
 
 #mapa {
@@ -17,4 +17,17 @@ input {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+#engine-selection {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #3113ff;
+  z-index: 1;
+  padding: 5px;
+
+  label {
+    display: inline-block;
+  }
 }
