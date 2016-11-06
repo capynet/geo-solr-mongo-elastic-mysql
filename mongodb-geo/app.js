@@ -1,3 +1,5 @@
+console.log("Creating mongodb points");
+
 // Load dependencies
 var Chance = require('chance');
 var chance = new Chance();
@@ -6,9 +8,9 @@ var MongoClient = require('mongodb').MongoClient;
 
 // We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 2000000;
+var loopQty = 500000;
 
-console.time("Generate mongo points");
+console.time("Generate points on RAM");
 for (var i = 1; i <= loopQty; i++) {
 
   var coords = chance.coordinates().split(', ');
@@ -22,33 +24,34 @@ for (var i = 1; i <= loopQty; i++) {
 
   docs.push(doc);
 }
-console.timeEnd("Generate mongo points");
+console.timeEnd("Generate points on RAM");
 
 
-console.time("Mongo add documents");
+console.time("Adding documents to mongodb...");
+console.time("Mongo add documents took time");
 
 MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
+
+  console.log("Empty the collection 'map_points'");
+  // Empty the collection.
+  db.dropCollection("map_points");
+
   // Get the collection
   var col = db.collection('map_points');
 
-  // before add all the documents we empty the entire collection.
-  // col.remove({});
-  // console.log('collection now is empty');
+  // Finally we create a 2dsphere index to allow us geospatial searches.
+  col.createIndex({"location": "2dsphere"});
+  console.log('Created 2dsphere index');
 
   col.insertMany(docs, function (err, r) {
     if (err) {
       console.log(err);
     } else {
-      console.log(r.insertedCount + ' document were added.');
-
-      //console.time("Create index");
-      // finally we create a 2dsphere index to allow us geospatial searches.
-      //col.createIndex({"location": "2dsphere"});
-      //console.log('2dsphere index created');
-      //console.timeEnd("Create index");
+      console.log(r.insertedCount + ' document were added to mongodb.');
     }
 
-    console.timeEnd("Mongo add documents");
+    console.timeEnd("Mongo add documents took time");
+
     db.close();
   });
 });
