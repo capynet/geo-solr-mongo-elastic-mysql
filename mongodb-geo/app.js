@@ -27,8 +27,8 @@ for (var i = 1; i <= loopQty; i++) {
 console.timeEnd("Generate points on RAM");
 
 
-console.time("Adding documents to mongodb...");
-console.time("Mongo add documents took time");
+console.log("Adding documents to mongodb...");
+console.log("Mongo add documents took time");
 
 MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
 

@@ -2,6 +2,10 @@
 
 {% block title %}Mapa{% endblock %}
 {% block content %}
+<div id="info">
+
+</div>
+
 <label id="search">
     Ubicación
     <input type="text" id="buscador" name="buscador">
