@@ -55,7 +55,8 @@ $(function () {
     backendSearch(params);
   });
 
-  $map.on('circle.dragend', function (e, distance, lat, lng) {
+  $map.on('circle.resized', function (e, distance, lat, lng) {
+    logger.addItem('Distance (km): ' + distance);
     var params = {lat: $map.data('gmap').conf.marker.getPosition().lat(), lng: $map.data('gmap').conf.marker.getPosition().lng(), distance: distance};
     backendSearch(params);
   });

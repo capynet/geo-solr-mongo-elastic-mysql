@@ -101,7 +101,7 @@ function instanceMap(placeholder, inputField, config) {
     google.maps.event.addListener(sizer, "dragend", function (event) {
       // Launch an event to allow other components react:
       c.distance = me.getDistance();
-      $placeholder.trigger("circle.dragend", [me.getDistance(), event.latLng.lat(), event.latLng.lng()]);
+      $placeholder.trigger("circle.resized", [me.getDistance(), event.latLng.lat(), event.latLng.lng()]);
     });
 
 
