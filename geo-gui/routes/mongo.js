@@ -28,20 +28,30 @@ router.post('/points/get', function (req, res, next) {
 
     var justTheseFields = {"location.coordinates": 1, _id: 0};
 
+    var exportedStats = {};
+
+    // Collect some stats
+    collection.find(criteria, justTheseFields).explain(function (err, explain) {
+      exportedStats = {
+        found: explain.executionStats.nReturned,
+        time: explain.executionStats.executionTimeMillis
+      }
+    });
+
     collection.find(criteria, justTheseFields).toArray(function (err, docs) {
-      callback(docs);
+      callback(docs, exportedStats);
     });
   };
 
   MongoClient.connect(url, function (err, db) {
-    findDocuments(db, req, function (docs) {
+    findDocuments(db, req, function (docs, stats) {
       db.close();
 
       console.log('Found: ' + docs.length + ' points from mongodb');
 
       res.json({
         items: docs,
-        found: docs.length
+        stats: stats
       });
 
     });

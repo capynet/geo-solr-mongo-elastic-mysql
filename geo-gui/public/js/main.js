@@ -26,10 +26,11 @@ $(function () {
     $.post('/' + engine + '/points/get', params)
       .done(function (data) {
 
-        logger.addItem('Items found: ' + data.found);
+        logger.addItem('Items found: ' + data.stats.found);
+        logger.addItem('Query time (ms): ' + data.stats.time);
         clearOverlays();
+
         data.items.forEach(function (item) {
-          console.log(item.location.coordinates[0]);
           addMarker(item.location.coordinates[1], item.location.coordinates[0], $map.data('gmap').map);
         });
 
