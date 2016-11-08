@@ -8,7 +8,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 1000000;
+var loopQty = 10000;
 
 console.time("Generate points on RAM");
 for (var i = 1; i <= loopQty; i++) {
@@ -26,9 +26,7 @@ for (var i = 1; i <= loopQty; i++) {
 }
 console.timeEnd("Generate points on RAM");
 
-
 console.log("Adding documents to mongodb...");
-console.time("Mongo add documents took time");
 
 MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
 
@@ -43,6 +41,7 @@ MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
   col.createIndex({"location": "2dsphere"});
   console.log('Created 2dsphere index');
 
+  console.time("Mongo add documents took time");
   col.insertMany(docs, function (err, r) {
     if (err) {
       console.log(err);
