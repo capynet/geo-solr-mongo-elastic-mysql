@@ -26,6 +26,7 @@ $(function () {
     $.post('/' + engine + '/points/get', params)
       .done(function (data) {
 
+        logger.addItem('Engine: ' + engine);
         logger.addItem('Items found: ' + data.stats.found);
         logger.addItem('Query time (ms): ' + data.stats.time);
         clearOverlays();
