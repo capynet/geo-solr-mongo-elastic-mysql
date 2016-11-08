@@ -39,6 +39,7 @@ $(function () {
   }
 
   /* Km */
+  logger.addItem('Distance (km): 50');
   var distance = 50;
   instanceMap('mapa', 'buscador', {zoom: 8, radius: distance});
   var $map = $('#mapa');

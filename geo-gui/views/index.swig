@@ -6,11 +6,6 @@
 
 </div>
 
-<label id="search">
-    Ubicación
-    <input type="text" id="buscador" name="buscador">
-</label>
-
 <div id="mapa"></div>
 
 <div id="engine-selection">
