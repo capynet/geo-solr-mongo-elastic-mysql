@@ -1,22 +1,16 @@
+html {
+  font-family: sans-serif; }
+
 #info {
   position: absolute;
   top: 0;
   left: 0;
-  background: grey;
   z-index: 1;
   padding: 5px;
   width: 300px;
+  background: #5d0000;
+  color: white;
   height: 300px; }
-
-#search {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: red;
-  z-index: 1;
-  padding: 5px; }
-  #search input {
-    padding: 5px; }
 
 #mapa {
   width: 100%;
@@ -29,7 +23,8 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  background: #3113ff;
+  background: #5d0000;
+  color: white;
   z-index: 1;
   padding: 5px; }
   #engine-selection label {
