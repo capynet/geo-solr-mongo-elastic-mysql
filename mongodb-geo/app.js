@@ -8,7 +8,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // We create a lot of ramdom points on the earth
 var docs = [];
-var loopQty = 500000;
+var loopQty = 1000000;
 
 console.time("Generate points on RAM");
 for (var i = 1; i <= loopQty; i++) {
@@ -28,7 +28,7 @@ console.timeEnd("Generate points on RAM");
 
 
 console.log("Adding documents to mongodb...");
-console.log("Mongo add documents took time");
+console.time("Mongo add documents took time");
 
 MongoClient.connect('mongodb://localhost:27017/geo', function (err, db) {
 
