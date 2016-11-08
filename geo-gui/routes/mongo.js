@@ -6,9 +6,13 @@ var url = 'mongodb://localhost:27017/geo';
 
 router.post('/points/get', function (req, res, next) {
 
-  MongoClient.connect(url, function (err, db) {
 
-    var cursor = db.collection('map_points').find({
+  var findDocuments = function (db, req, callback) {
+    // Get the documents collection
+    var collection = db.collection('map_points');
+
+    // Find some documents
+    var criteria = {
       location: {
         $geoWithin: {
           $centerSphere: [
@@ -20,31 +24,27 @@ router.post('/points/get', function (req, res, next) {
           ]
         }
       }
+    };
+
+    var justTheseFields = {"location.coordinates": 1, _id: 0};
+
+    collection.find(criteria, justTheseFields).toArray(function (err, docs) {
+      callback(docs);
     });
+  };
 
-    var docs = [];
+  MongoClient.connect(url, function (err, db) {
+    findDocuments(db, req, function (docs) {
+      db.close();
 
-    cursor.each(function (err, doc) {
+      console.log('Found: ' + docs.length + ' points from mongodb');
 
-      if (err) {
-        console.log(err);
-      }
+      res.json({
+        items: docs,
+        found: docs.length
+      });
 
-      if (doc != null) {
-        docs.push({coordinates: doc.location.coordinates["1"] + ', ' + doc.location.coordinates["0"]});
-      } else {
-        console.log('Found: ' + docs.length + ' points from mongodb');
-
-        res.json({
-          items: docs,
-          found: docs.length
-        });
-      }
     });
-
-    //db.close();
-
-
   });
 
 

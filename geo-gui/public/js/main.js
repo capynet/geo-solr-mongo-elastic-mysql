@@ -1,4 +1,5 @@
 $(function () {
+  var logger = new Logger('#info');
   var engine = 'mongo';
   var markersArray = [];
 
@@ -21,13 +22,18 @@ $(function () {
    * @param params
    */
   function backendSearch(params) {
-    console.log('Searching');
+
     $.post('/' + engine + '/points/get', params)
       .done(function (data) {
+
+        logger.addItem('Items found: ' + data.found);
         clearOverlays();
         data.items.forEach(function (item) {
-          addMarker(item.coordinates.split(',')[0], item.coordinates.split(',')[1], $map.data('gmap').map);
+          console.log(item.location.coordinates[0]);
+          addMarker(item.location.coordinates[1], item.location.coordinates[0], $map.data('gmap').map);
         });
+
+        logger.render();
       });
   }
 
