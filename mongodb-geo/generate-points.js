@@ -76,9 +76,16 @@ function createIndex() {
 function generateBulkDocs(cnt, bulkQty) {
 
   generatePointOnRam(bulkQty, function (docs) {
+
+    console.time("Store points on mongoDB");
+
     addDocuments(docs, function () {
+
+      console.timeEnd("Store points on mongoDB");
+
       cnt--;
       if (cnt > 0) {
+        console.log('Remaining loops: ' + cnt + ' of ' + bulkQty + ' items');
         generateBulkDocs(cnt, bulkQty);
       }
     });
